@@ -9,6 +9,7 @@ namespace ExchangeClick.Entities
 	{
 		[Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		
         public int UserId{get;set;}
 		[Required]
 		public string Name{get;set;}

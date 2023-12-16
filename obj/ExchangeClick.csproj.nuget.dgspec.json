@@ -1,26 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "/Users/seba/Desktop/ExchageClick/ExchangeClickBackend/ExchangeClick/ExchangeClick.csproj": {}
+    "C:\\Users\\Sebastian Rojas\\source\\repos\\ExchangeClickBackend\\ExchangeClick.csproj": {}
   },
   "projects": {
-    "/Users/seba/Desktop/ExchageClick/ExchangeClickBackend/ExchangeClick/ExchangeClick.csproj": {
+    "C:\\Users\\Sebastian Rojas\\source\\repos\\ExchangeClickBackend\\ExchangeClick.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/seba/Desktop/ExchageClick/ExchangeClickBackend/ExchangeClick/ExchangeClick.csproj",
+        "projectUniqueName": "C:\\Users\\Sebastian Rojas\\source\\repos\\ExchangeClickBackend\\ExchangeClick.csproj",
         "projectName": "ExchangeClick",
-        "projectPath": "/Users/seba/Desktop/ExchageClick/ExchangeClickBackend/ExchangeClick/ExchangeClick.csproj",
-        "packagesPath": "/Users/seba/.nuget/packages/",
-        "outputPath": "/Users/seba/Desktop/ExchageClick/ExchangeClickBackend/ExchangeClick/obj/",
+        "projectPath": "C:\\Users\\Sebastian Rojas\\source\\repos\\ExchangeClickBackend\\ExchangeClick.csproj",
+        "packagesPath": "C:\\Users\\Sebastian Rojas\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Sebastian Rojas\\source\\repos\\ExchangeClickBackend\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/Users/seba/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Sebastian Rojas\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "/usr/local/share/dotnet/sdk/7.0.311/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -95,7 +101,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.311/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

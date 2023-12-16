@@ -7,11 +7,12 @@ using ExchangeClick.Entities;
 using ExchangeClick.Models;
 using ExchangeClick.Models.DTO.UsersDTO;
 using ExchangeClick.Models.Enum;
+using ExchangeClick.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace ExchangeClick.Services
 {
-    public class UserServices
+    public class UserServices:IUserServices
     {
         private readonly ExchangeClickContext _context;
 
@@ -49,18 +50,19 @@ namespace ExchangeClick.Services
             {
                 return false;
             }
-            var newUser = new User
+            var newAdmin = new User
             {
                 Name = dto.Name,
                 LastName = dto.LastName,
                 Email = dto.Email,
                 Password = dto.Password,
                 Username = dto.Username,
-                
+                SubscriptionId = dto.SubscriptionId,
+
 
                 Role = Role.Admin,
             };
-            _context.Users.Add(newUser);
+            _context.Users.Add(newAdmin);
             await _context.SaveChangesAsync();
             return true;
         }
@@ -161,6 +163,11 @@ namespace ExchangeClick.Services
                 return true; // Change successful
             }
             return false; // Subscription not found
+        }
+
+        public User? ValidateUser(AuthenticationRequestDTO authRequestBody)
+        {
+            return _context.Users.FirstOrDefault(p => p.Email == authRequestBody.Email && p.Password == authRequestBody.Pass);
         }
 
     }

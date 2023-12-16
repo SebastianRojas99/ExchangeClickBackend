@@ -6,13 +6,15 @@ using ExchangeClick.Services;
 using ExchangeClick.Services.Implementations;
 using Microsoft.AspNetCore.Mvc;
 using ExchangeClick.Models;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ExchangeClick.Controllers
 {
     [Route("api/[controller]")]
-    
+    [Authorize(Roles = "Admin")]
+
     public class UserController : Controller
     {
         private readonly ExchangeClickContext _context;

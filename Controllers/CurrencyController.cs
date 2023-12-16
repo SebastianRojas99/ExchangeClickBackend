@@ -9,10 +9,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using ExchangeClick.Models.DTO.CurrenciesDTO;
 using ExchangeClick.Models.DTO.UsersDTO;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 
 namespace ExchangeClick.Controllers
 {
     [Route("api/currencies")]
+    [ApiController]
+    [Authorize(Roles = "User,Admin")]
     
     public class CurrencyController : ControllerBase
     {
@@ -59,10 +63,11 @@ namespace ExchangeClick.Controllers
         }
 
         [HttpPost("convertir-moneda")]
-        public async Task<IActionResult> ConvertCurrency(string symbol1, string symbol2, int quantity, UserForConversionDTO dto)
+        public async Task<IActionResult> ConvertCurrency(string symbol1, string symbol2, int quantity)
         {
             var conversionValue = await _currencyService.Exchange(symbol1, symbol2, quantity);
-            var u = await _context.Users.Include(s => s.Subscription).SingleOrDefaultAsync(x => x.UserId == dto.UserId);
+            int userId = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Contains("nameidentifier"))!.Value);
+            var u = await _context.Users.Include(s => s.Subscription).SingleOrDefaultAsync(x => x.UserId == userId);
             if (conversionValue > 0 && u.Subscription.SubCount>0)
             {
                 // Si la conversion fue exitosa, resta un intento de conversion de la suscripción del usuario y guarda los cambios

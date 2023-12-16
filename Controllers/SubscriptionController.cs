@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ExchangeClick.Models.DTO.SubscriptionDTO;
 using ExchangeClick.Services.Implementations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +13,8 @@ using Microsoft.EntityFrameworkCore;
 namespace ExchangeClick.Controllers
 {
     [Route("api/[controller]")]
-    
+    [ApiController]
+    [Authorize(Roles = "Admin")]
     public class SubscriptionController : Controller
     {
         private readonly ExchangeClickContext _context;
