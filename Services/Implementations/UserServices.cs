@@ -167,7 +167,7 @@ namespace ExchangeClick.Services
 
         public User? ValidateUser(AuthenticationRequestDTO authRequestBody)
         {
-            return _context.Users.FirstOrDefault(p => p.Email == authRequestBody.Email && p.Password == authRequestBody.Pass);
+            return _context.Users.FirstOrDefault(p => p.Email == authRequestBody.Email && p.Password == authRequestBody.Password);
         }
 
     }

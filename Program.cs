@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using Microsoft.IdentityModel.Tokens;
+using ExchangeClick.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -67,15 +68,29 @@ builder.Services.AddScoped<CurrencyServices>();
 builder.Services.AddScoped<SubscriptionServices>();
 builder.Services.AddScoped<UserServices>();
 #endregion
-
+builder.Services.AddScoped<CurrencyServices>();
+builder.Services.AddScoped<IUserServices, UserServices>();
+builder.Services.AddScoped<SubscriptionServices>();
 #region DependencyInjections
 builder.Services.AddScoped<CurrencyServices>();
 builder.Services.AddScoped<SubscriptionServices>();
 builder.Services.AddScoped<UserServices>();
 #endregion
 
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(
+        name: "AllowOrigin",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+        });
+});
 var app = builder.Build();
-app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
 
 
 // Configura el pipeline de solicitud HTTP.
@@ -87,8 +102,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
 // Redirección HTTPS
 app.UseHttpsRedirection();
+//mi cors
+app.UseCors("AllowOrigin");
 
 // Configuración de autorización
 app.UseAuthorization();

@@ -8,7 +8,7 @@ namespace ExchangeClick.Models.DTO.UsersDTO
             [Required]
             public string? Email { get; set; }
             [Required]
-            public string? Pass { get; set; } 
+            public string? Password { get; set; } 
     }
 	
 }
