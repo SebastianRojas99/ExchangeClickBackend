@@ -21,13 +21,13 @@ namespace ExchangeClick.Services
 
         public async Task<List<CurrenciesForGetDTO>> GetCurrenciesAsync()
         {
-            var currencies = await _context.Currencies.Include(u=>u.User).ToListAsync();
+            var currencies = await _context.Currencies.ToListAsync();
             return currencies.Select(currency => new CurrenciesForGetDTO
             {
+                CurrencyId = currency.CurrencyId,
                 CurrencyName = currency.CurrencyName,
                 CurrencySymbol = currency.CurrencySymbol,
                 CurrencyValue = currency.CurrencyValue,
-                UserName = currency.User?.Username
             }).ToList();
         }
 
@@ -79,6 +79,7 @@ namespace ExchangeClick.Services
 
             var newCurrency = new Currency
             {
+                
                 CurrencyName = currencyDTO.CurrencyName,
                 CurrencySymbol = currencyDTO.CurrencySymbol?.ToLower(),
                 CurrencyValue = currencyDTO.CurrencyValue,

@@ -35,16 +35,16 @@ builder.Services.AddSwaggerGen(setupAction =>
     });
 
     setupAction.AddSecurityRequirement(new OpenApiSecurityRequirement
+  {
     {
+      new OpenApiSecurityScheme
+      {
+        Reference = new OpenApiReference
         {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "ExchangeClickBearerAuth" } //Tiene que coincidir con el id seteado arriba en la definición
-                }, new List<string>() }
-    });
+          Type = ReferenceType.SecurityScheme,
+          Id = "ExchangeClickBearerAuth" } //Tiene que coincidir con el id seteado arriba en la definición
+        }, new List<string>() }
+  });
 });
 builder.Configuration.AddJsonFile("appsettings.json");
 
@@ -68,29 +68,26 @@ builder.Services.AddScoped<CurrencyServices>();
 builder.Services.AddScoped<SubscriptionServices>();
 builder.Services.AddScoped<UserServices>();
 #endregion
-builder.Services.AddScoped<CurrencyServices>();
-builder.Services.AddScoped<IUserServices, UserServices>();
-builder.Services.AddScoped<SubscriptionServices>();
-#region DependencyInjections
-builder.Services.AddScoped<CurrencyServices>();
-builder.Services.AddScoped<SubscriptionServices>();
-builder.Services.AddScoped<UserServices>();
-#endregion
 
+// **Elimina la configuración CORS del programa. Ahora se gestiona en cada endpoint individualmente.**
+// builder.Services.AddCors(options =>
+// {
+//  options.AddPolicy(
+//    name: "AllowOrigin",
+//    builder =>
+//    {
+//      builder.WithOrigins("http://localhost:4200")
+//          .AllowAnyMethod()
+//          .AllowAnyHeader();
+//    });
+// });
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(
-        name: "AllowOrigin",
-        builder =>
-        {
-            builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader();
-        });
-});
 var app = builder.Build();
 
+app.UseCors(options => options
+  .SetIsOriginAllowed(origin => origin == "http://localhost:4200")
+  .AllowAnyMethod()
+  .AllowAnyHeader());
 
 
 // Configura el pipeline de solicitud HTTP.
@@ -105,8 +102,7 @@ if (app.Environment.IsDevelopment())
 
 // Redirección HTTPS
 app.UseHttpsRedirection();
-//mi cors
-app.UseCors("AllowOrigin");
+
 
 // Configuración de autorización
 app.UseAuthorization();

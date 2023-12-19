@@ -14,9 +14,9 @@ using Microsoft.AspNetCore.Authorization.Infrastructure;
 
 namespace ExchangeClick.Controllers
 {
-    [Route("api/currencies")]
+    [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "User,Admin")]
+    [Authorize(Roles ="User,Admin")]
     
     public class CurrencyController : ControllerBase
     {
@@ -29,8 +29,8 @@ namespace ExchangeClick.Controllers
             _currencyService = currencyService;
         }
 
-        [HttpGet("obtener-monedas-y-su-id")]
-        public async Task<IActionResult> GetIdCurrencies()
+        [HttpGet]
+        public async Task<IActionResult> GetCurrencies()
         {
             var currencies = await _currencyService.GetCurrenciesAsync();
             return Ok(currencies);
@@ -43,7 +43,7 @@ namespace ExchangeClick.Controllers
 
             if (currency == null)
             {
-                return NotFound();
+                return BadRequest();
             }
 
             return Ok(currency);
