@@ -69,18 +69,6 @@ builder.Services.AddScoped<SubscriptionServices>();
 builder.Services.AddScoped<UserServices>();
 #endregion
 
-// **Elimina la configuración CORS del programa. Ahora se gestiona en cada endpoint individualmente.**
-// builder.Services.AddCors(options =>
-// {
-//  options.AddPolicy(
-//    name: "AllowOrigin",
-//    builder =>
-//    {
-//      builder.WithOrigins("http://localhost:4200")
-//          .AllowAnyMethod()
-//          .AllowAnyHeader();
-//    });
-// });
 
 var app = builder.Build();
 
