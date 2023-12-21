@@ -1,29 +1,34 @@
 ﻿<Properties StartupConfiguration="{268DC2C8-B04F-4561-A9C5-3C77B347381F}|Default">
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.ExchangeClick PreferredExecutionTarget="/Applications/Google Chrome 2.app" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/CurrencyController.cs">
     <Files>
       <File FileName="Program.cs" Line="99" Column="1" />
-      <File FileName="Controllers/CurrencyController.cs" Line="70" Column="86" />
-      <File FileName="Services/Implementations/CurrencyServices.cs" Line="53" Column="116" />
-      <File FileName="Controllers/AuthController.cs" />
-      <File FileName="Models/DTO/CurrenciesDTO/CurrenciesForGetDTO.cs" />
-      <File FileName="Entities/Currency.cs" />
-      <File FileName="Models/DTO/CurrenciesDTO/CurrencyForConvesionDTO.cs" Line="10" Column="3" />
+      <File FileName="Controllers/CurrencyController.cs" Line="74" Column="58" />
+      <File FileName="Entities/Currency.cs" Line="14" Column="19" />
+      <File FileName="Models/DTO/CurrenciesDTO/CurrencyForConvesionDTO.cs" Line="8" Column="3" />
+      <File FileName="Services/Implementations/UserServices.cs" Line="1" Column="1" />
+      <File FileName="Data/ExchangeClickContext.cs" Line="12" Column="24" />
+      <File FileName="Services/Implementations/CurrencyServices.cs" Line="52" Column="108" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="ExchangeClick">
-            <Node name="ExchangeClick">
-              <Node name="Controllers">
-                <Node name="CurrencyController.cs" selected="True" />
-              </Node>
+            <Node name="ExchangeClick" expanded="True">
+              <Node name="Controllers" expanded="True" />
+              <Node name="Data" expanded="True" />
+              <Node name="Entities" expanded="True" />
               <Node name="Models" expanded="True">
                 <Node name="DTO" expanded="True">
                   <Node name="CurrenciesDTO" expanded="True" />
                 </Node>
               </Node>
-              <Node name="Services">
+              <Node name="Services" expanded="True">
                 <Node name="Implementations" expanded="True" />
               </Node>
             </Node>
@@ -33,9 +38,4 @@
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.ExchangeClick PreferredExecutionTarget="/Applications/Google Chrome 2.app" />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MultiItemStartupConfigurations />
 </Properties>

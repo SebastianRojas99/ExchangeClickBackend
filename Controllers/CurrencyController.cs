@@ -62,11 +62,11 @@ namespace ExchangeClick.Controllers
             return Conflict("El símbolo de la moneda ya existe.");
         }
 
-        [HttpPost("convertir-moneda")]
-        public async Task<IActionResult> ConvertCurrency(string symbol1, string symbol2, int quantity)
+        [HttpPost]
+        public async Task<IActionResult> ConvertCurrency(string CurrencySymbol,  string symbol2, int quantity)
         {
             // Crear instancias de CurrencyForConvesionDTO con los símbolos proporcionados
-            var currency1 = new CurrencyForConvesionDTO { CurrencySymbol = symbol1 };
+            var currency1 = new CurrencyForConvesionDTO { CurrencySymbol = CurrencySymbol };
             var currency2 = new CurrencyForConvesionDTO { CurrencySymbol = symbol2 };
             var conversionValue = await _currencyService.Exchange(currency1, currency2, quantity);
             int userId = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Contains("nameidentifier"))!.Value);

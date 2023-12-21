@@ -46,10 +46,10 @@ namespace ExchangeClick.Services
             
         }
 
-        public async Task<decimal> Exchange(CurrencyForConvesionDTO symbol1, CurrencyForConvesionDTO symbol2, int quantity)
+        public async Task<decimal> Exchange(CurrencyForConvesionDTO CurrencySymbol, CurrencyForConvesionDTO symbol2, int quantity)
         {
             // Busca las monedas en la base de datos
-            var c1 = await _context.Currencies.SingleOrDefaultAsync(c => c.CurrencySymbol == symbol1.CurrencySymbol);
+            var c1 = await _context.Currencies.SingleOrDefaultAsync(c => c.CurrencySymbol == CurrencySymbol.CurrencySymbol);
             var c2 = await _context.Currencies.SingleOrDefaultAsync(c => c.CurrencySymbol == symbol2.CurrencySymbol);
 
             // Si las monedas se encontraron, calcula el valor de cambio

@@ -13,7 +13,7 @@ namespace ExchangeClick.Entities
 
         [Required]
         public string? CurrencyName { get; set; }
-        [Required]
+        
         [MaxLength(4)]
         public string? CurrencySymbol { get; set; }
         [Required]
