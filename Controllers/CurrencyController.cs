@@ -63,18 +63,19 @@ namespace ExchangeClick.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ConvertCurrency(string CurrencySymbol,  string symbol2, int quantity)
+        public async Task<IActionResult> ConvertCurrency([FromBody] CurrencyConversionRequestDTO request)
         {
             // Crear instancias de CurrencyForConvesionDTO con los símbolos proporcionados
-            var currency1 = new CurrencyForConvesionDTO { CurrencySymbol = CurrencySymbol };
-            var currency2 = new CurrencyForConvesionDTO { CurrencySymbol = symbol2 };
-            var conversionValue = await _currencyService.Exchange(currency1, currency2, quantity);
+            var currency1 = new CurrencyForConvesionDTO { CurrencySymbol = request.Symbol1 };
+            var currency2 = new CurrencyForConvesionDTO { CurrencySymbol = request.Symbol2 };
+
+            var conversionValue = await _currencyService.Exchange(currency1, currency2, request.Quantity);
+
             int userId = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Contains("nameidentifier"))!.Value);
             var u = await _context.Users.Include(s => s.Subscription).SingleOrDefaultAsync(x => x.UserId == userId);
-            if (conversionValue > 0 && u.Subscription.SubCount>0)
+            if (conversionValue > 0 && u.Subscription.SubCount > 0)
             {
                 // Si la conversion fue exitosa, resta un intento de conversion de la suscripción del usuario y guarda los cambios
-                
                 u.Subscription.SubCount--;
                 await _context.SaveChangesAsync();
 
@@ -87,6 +88,7 @@ namespace ExchangeClick.Controllers
                 return BadRequest("No se pudo realizar la conversion de moneda.");
             }
         }
+
         [HttpPut("actualizar-moneda")]
         public async Task<IActionResult> UpdateCurrency(string symbol, [FromBody] CurrenciesForGetDTO updatedCurrency)
         {

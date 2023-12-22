@@ -1,19 +1,19 @@
 ﻿<Properties StartupConfiguration="{268DC2C8-B04F-4561-A9C5-3C77B347381F}|Default">
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.ExchangeClick PreferredExecutionTarget="/Applications/Google Chrome 2.app" />
+  <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.ExchangeClick PreferredExecutionTarget="/Applications/Google Chrome 2.app" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/CurrencyController.cs">
     <Files>
-      <File FileName="Program.cs" Line="99" Column="1" />
-      <File FileName="Controllers/CurrencyController.cs" Line="74" Column="58" />
+      <File FileName="Program.cs" />
+      <File FileName="Controllers/CurrencyController.cs" Line="86" Column="14" />
       <File FileName="Entities/Currency.cs" Line="14" Column="19" />
-      <File FileName="Models/DTO/CurrenciesDTO/CurrencyForConvesionDTO.cs" Line="8" Column="3" />
-      <File FileName="Services/Implementations/UserServices.cs" Line="1" Column="1" />
-      <File FileName="Data/ExchangeClickContext.cs" Line="12" Column="24" />
-      <File FileName="Services/Implementations/CurrencyServices.cs" Line="52" Column="108" />
+      <File FileName="Services/Implementations/UserServices.cs" />
+      <File FileName="Data/ExchangeClickContext.cs" />
+      <File FileName="Services/Implementations/CurrencyServices.cs" Line="60" Column="14" />
+      <File FileName="Models/DTO/CurrenciesDTO/CurrencyConversionRequestDTO.cs" Line="7" Column="23" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">

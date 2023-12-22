@@ -5,8 +5,8 @@ namespace ExchangeClick.Models.DTO.CurrenciesDTO
 {
 	public class CurrencyForConvesionDTO
 	{
-		
-		public string CurrencySymbol { get; set; }
+		 
+		public string? CurrencySymbol { get; set; }
 	}
 }
 
