@@ -85,10 +85,28 @@ namespace ExchangeClick.Services
                 SubscriptionId = u.SubscriptionId,
                 SubscriptionName = u.Subscription?.SubscriptionName,
                 SubCount = u.Subscription.SubCount
-                // Map other fields as needed
+                
             }).ToList();
             
         }
+
+        public async Task<List<UserProfileDTO>> Profile(int id)
+        {
+            var users = await _context.Users.Where(c => c.UserId == id).Include(u => u.Subscription).ToListAsync();
+
+            return users.Select(u => new UserProfileDTO
+            {
+                UserId = u.UserId,
+                Name = u.Name,
+                LastName = u.LastName,
+                Email = u.Email,
+                Username = u.Username,
+                SubscriptionName = u.Subscription.SubscriptionName,
+                SubCount = u.Subscription.SubCount,
+            }).ToList();
+
+        }
+
 
         public async Task<bool> UpdateUser(string uname, UserForLoginDTO dto)
         {
@@ -98,7 +116,7 @@ namespace ExchangeClick.Services
 
                 if (update == null)
                 {
-                    return false; // User not found in the database.
+                    return false; 
                 }
 
                 if (update.Username != dto.Username || update.Password != dto.Password)
@@ -120,12 +138,12 @@ namespace ExchangeClick.Services
             catch (DbUpdateException ex)
             {
                 Console.WriteLine($"Error updating user: {ex.Message}");
-                return false; // Error updating the user.
+                return false; 
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Unexpected error updating user: {ex.Message}");
-                return false; // Unexpected error updating the user.
+                return false; 
             }
         }
         
@@ -150,6 +168,13 @@ namespace ExchangeClick.Services
                 Console.WriteLine($"Error deleting user: {ex.Message}");
                 return false; // Error deleting the user.
             }
+        }
+
+        public async Task<int> getSubCountById(int id)
+        {
+            var s = await _context.Users.Include(u => u.Subscription).FirstOrDefaultAsync(x=>x.UserId == id);
+
+            return s.Subscription.SubCount;
         }
 
         public async Task<bool> ChangeSub(UserForGetDTO dto, int subNum)

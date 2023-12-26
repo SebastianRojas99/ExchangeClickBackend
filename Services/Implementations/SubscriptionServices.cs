@@ -28,6 +28,9 @@ namespace ExchangeClick.Services.Implementations
 
             }).ToList();
         }
+
+        
+
         public async Task<bool> AddSubs(SubscriptionForSelectDTO dto)
         {
             if (await _context.Subscriptions.AnyAsync(c => c.SubscriptionName == dto.SubscriptionName))

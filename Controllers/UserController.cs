@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using ExchangeClick.Models;
 using Microsoft.AspNetCore.Authorization;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ExchangeClick.Controllers
 {
@@ -32,6 +31,26 @@ namespace ExchangeClick.Controllers
             var users = await _service.GetUsers();
             return Ok(users);
         }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetSubCountById(int id)
+        {
+            try
+            {
+                // Obtener el ID del usuario desde los claims
+                int userId = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Contains("nameidentifier"))!.Value);
+
+                // Obtener la cantidad de suscriptores por ID
+                int subCount = await _service.getSubCountById(userId);
+
+                return Ok(subCount);
+            }
+            catch (Exception ex)
+            {
+                // Manejar errores según sea necesario
+                return BadRequest("error inesperado");
+            }
+        }
+
 
         [HttpPost("userCreation")]
         //[AllowAnonymous]
