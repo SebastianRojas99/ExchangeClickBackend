@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace ExchangeClick.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize(Roles = "Admin")]
+    
 
     public class UserController : Controller
     {
@@ -25,14 +25,17 @@ namespace ExchangeClick.Controllers
             _service = service;
         }
 
+
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> getUsers()
         {
             var users = await _service.GetUsers();
             return Ok(users);
         }
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetSubCountById(int id)
+        [Authorize(Roles = "User,Admin")]
+        public async Task<IActionResult> GetSubCountById()
         {
             try
             {
@@ -53,7 +56,8 @@ namespace ExchangeClick.Controllers
 
 
         [HttpPost("userCreation")]
-        //[AllowAnonymous]
+        [Authorize(Roles = "Admin")]
+        [AllowAnonymous]
         public async Task<IActionResult> userCreation( [FromBody]UserForRegister u)
         {
             var res = await _service.CreateUser(u);
@@ -64,7 +68,7 @@ namespace ExchangeClick.Controllers
             return Conflict("usuario ya creado!");
         }
         [HttpPost("adminCreation")]
-        //[AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> adminCreation([FromBody] UserForRegister a)
         {
             var res = await _service.CreateAdmin(a);
@@ -75,12 +79,14 @@ namespace ExchangeClick.Controllers
             return Conflict("admin ya creado!");
         }
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> update([FromBody] string uname,UserForLoginDTO u)
         {
             var user = await _service.UpdateUser(uname,u);
             return Ok(user);
         }
         [HttpDelete]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> delete(UserForLoginDTO dto)
         {
             var userDelete = await _service.DeleteUser(dto);

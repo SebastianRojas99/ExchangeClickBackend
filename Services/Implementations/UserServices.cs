@@ -170,9 +170,9 @@ namespace ExchangeClick.Services
             }
         }
 
-        public async Task<int> getSubCountById(int id)
+        public async Task<int> getSubCountById(int UserId)
         {
-            var s = await _context.Users.Include(u => u.Subscription).FirstOrDefaultAsync(x=>x.UserId == id);
+            var s = await _context.Users.Include(u => u.Subscription).FirstOrDefaultAsync(x => x.UserId == UserId);
 
             return s.Subscription.SubCount;
         }
