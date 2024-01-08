@@ -90,6 +90,7 @@ namespace ExchangeClick.Services
             
         }
 
+
         public async Task<UserProfileDTO> Profile(int id)
         {
             var user = await _context.Users
@@ -99,22 +100,26 @@ namespace ExchangeClick.Services
 
             if (user != null)
             {
-                return new UserProfileDTO
+                var userProfile = new UserProfileDTO
                 {
                     UserId = user.UserId,
                     Name = user.Name,
                     LastName = user.LastName,
                     Email = user.Email,
                     Username = user.Username,
-                    SubscriptionName = user.Subscription.SubscriptionName,
+                    SubscriptionName = user.Subscription?.SubscriptionName,
                     SubCount = user.Subscription.SubCount,
                 };
+                userProfile.Role = user.Role.ToString();
+
+                return userProfile;
             }
             else
             {
                 return null; // O lanzar una excepción si se prefiere
             }
         }
+
 
 
         public async Task<bool> UpdateUser(string uname, UserForLoginDTO dto)
