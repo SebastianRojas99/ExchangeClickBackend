@@ -33,6 +33,14 @@ namespace ExchangeClick.Controllers
             var users = await _service.GetUsers();
             return Ok(users);
         }
+        [HttpGet("Profile/{userId}")]
+        [Authorize(Roles = "User,Admin")]
+        public async Task<IActionResult> getUserById()
+        {
+            int userId = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Contains("nameidentifier"))!.Value);
+            var user = await _service.Profile(userId);
+            return Ok(user);
+        }
         [HttpGet("{id}")]
         [Authorize(Roles = "User,Admin")]
         public async Task<IActionResult> GetSubCountById()

@@ -1,8 +1,11 @@
 ﻿<Properties StartupConfiguration="{268DC2C8-B04F-4561-A9C5-3C77B347381F}|Default">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/UserController.cs">
     <Files>
-      <File FileName="Services/Implementations/UserServices.cs" Line="161" Column="56" />
-      <File FileName="Controllers/UserController.cs" Line="37" Column="42" />
+      <File FileName="Services/Implementations/UserServices.cs" />
+      <File FileName="Controllers/UserController.cs" Line="17" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -10,13 +13,6 @@
           <Node name="ExchangeClick">
             <Node name="ExchangeClick" expanded="True">
               <Node name="Controllers" expanded="True" />
-              <Node name="Data" expanded="True" />
-              <Node name="Entities" expanded="True" />
-              <Node name="Models" expanded="True">
-                <Node name="DTO" expanded="True">
-                  <Node name="UsersDTO" expanded="True" />
-                </Node>
-              </Node>
               <Node name="Services" expanded="True">
                 <Node name="Implementations" expanded="True" />
               </Node>
@@ -30,7 +26,4 @@
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.ItemProperties.ExchangeClick PreferredExecutionTarget="/Applications/Google Chrome 2.app" />
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

@@ -90,21 +90,30 @@ namespace ExchangeClick.Services
             
         }
 
-        public async Task<List<UserProfileDTO>> Profile(int id)
+        public async Task<UserProfileDTO> Profile(int id)
         {
-            var users = await _context.Users.Where(c => c.UserId == id).Include(u => u.Subscription).ToListAsync();
+            var user = await _context.Users
+                .Where(c => c.UserId == id)
+                .Include(u => u.Subscription)
+                .FirstOrDefaultAsync();
 
-            return users.Select(u => new UserProfileDTO
+            if (user != null)
             {
-                UserId = u.UserId,
-                Name = u.Name,
-                LastName = u.LastName,
-                Email = u.Email,
-                Username = u.Username,
-                SubscriptionName = u.Subscription.SubscriptionName,
-                SubCount = u.Subscription.SubCount,
-            }).ToList();
-
+                return new UserProfileDTO
+                {
+                    UserId = user.UserId,
+                    Name = user.Name,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                    Username = user.Username,
+                    SubscriptionName = user.Subscription.SubscriptionName,
+                    SubCount = user.Subscription.SubCount,
+                };
+            }
+            else
+            {
+                return null; // O lanzar una excepción si se prefiere
+            }
         }
 
 
