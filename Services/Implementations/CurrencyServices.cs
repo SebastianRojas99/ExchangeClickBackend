@@ -70,7 +70,7 @@ namespace ExchangeClick.Services
             return await _context.Currencies.ToListAsync();
         }
 
-        public async Task<bool> AddCurrencyAsync(CurrencyForCreate currencyDTO)//agregar
+        public async Task<bool> AddCurrencyAsync(CurrencyForCreate currencyDTO, int loggedUser)//agregar
         {
             if (await _context.Currencies.AnyAsync(c => c.CurrencySymbol == currencyDTO.CurrencySymbol))
             {
@@ -83,7 +83,7 @@ namespace ExchangeClick.Services
                 CurrencyName = currencyDTO.CurrencyName,
                 CurrencySymbol = currencyDTO.CurrencySymbol?.ToLower(),
                 CurrencyValue = currencyDTO.CurrencyValue,
-                UserId = currencyDTO.UserId
+                UserId = loggedUser
                 
             };
 
@@ -93,10 +93,10 @@ namespace ExchangeClick.Services
             return true; 
         }
 
-        public async Task<bool> UpdateCurrencyAsync(string symbol, CurrenciesForGetDTO updatedCurrency)
+        public async Task<bool> UpdateCurrencyAsync(int id, CurrencyForEditDTO updatedCurrency, int userId)
         {
             var existingCurrency = await _context.Currencies
-                .SingleOrDefaultAsync(c => c.CurrencySymbol == symbol);
+                .SingleOrDefaultAsync(c => c.CurrencyId == id);
 
 
             if (existingCurrency == null)
@@ -107,6 +107,7 @@ namespace ExchangeClick.Services
             existingCurrency.CurrencyName = updatedCurrency.CurrencyName;
             existingCurrency.CurrencySymbol = updatedCurrency.CurrencySymbol;
             existingCurrency.CurrencyValue = updatedCurrency.CurrencyValue;
+            existingCurrency.UserId = userId;
 
             try
             {

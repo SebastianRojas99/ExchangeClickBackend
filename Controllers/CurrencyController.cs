@@ -52,11 +52,12 @@ namespace ExchangeClick.Controllers
         [HttpPost("crear-nueva-moneda")]
         public async Task<IActionResult> AddCurrency( CurrencyForCreate currencyDTO)
         {
-            var result = await _currencyService.AddCurrencyAsync(currencyDTO);
+            int userId = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Contains("nameidentifier"))!.Value);
+            var result = await _currencyService.AddCurrencyAsync(currencyDTO,userId);
 
             if (result)
             {
-                return Created("GetCurrency", null); // Cambiar a Created si deseas proporcionar una URL para la nueva moneda
+                return Created("GetCurrency", result); // Cambiar a Created si deseas proporcionar una URL para la nueva moneda
             }
 
             return Conflict("El símbolo de la moneda ya existe.");
@@ -89,15 +90,12 @@ namespace ExchangeClick.Controllers
             }
         }
 
-        [HttpPut("actualizar-moneda")]
-        public async Task<IActionResult> UpdateCurrency(string symbol, [FromBody] CurrenciesForGetDTO updatedCurrency)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateCurrency(int id, [FromBody] CurrencyForEditDTO updatedCurrency)
         {
-            if (symbol == updatedCurrency.CurrencySymbol)
-            {
-                return BadRequest("El símbolo proporcionado se encuentra en uso.");
-            }
-
-            var result = await _currencyService.UpdateCurrencyAsync(symbol, updatedCurrency);
+            
+            var userId = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Contains("nameidentifier"))!.Value);
+            var result = await _currencyService.UpdateCurrencyAsync(id, updatedCurrency,userId);
 
             if (result)
             {
