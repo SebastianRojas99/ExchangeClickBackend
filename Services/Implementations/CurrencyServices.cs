@@ -19,10 +19,11 @@ namespace ExchangeClick.Services
             _context = context;
         }
 
-        public async Task<List<CurrenciesForGetDTO>> GetCurrenciesAsync()
+        public async Task<List<CurrenciesForGetDTO>> GetCurrenciesAsync(int id)
         {
-            var currencies = await _context.Currencies.ToListAsync();
-            return currencies.Select(currency => new CurrenciesForGetDTO
+            
+            var currencies = await _context.Currencies.Include(u=>u.User).ToListAsync();
+            return currencies.Where(c=>c.User.UserId==id).Select(currency => new CurrenciesForGetDTO
             {
                 CurrencyId = currency.CurrencyId,
                 CurrencyName = currency.CurrencyName,
@@ -31,19 +32,26 @@ namespace ExchangeClick.Services
             }).ToList();
         }
 
-        public async Task<Currency> GetCurrencyAsync(int id)
+        public async Task<CurrenciesForGetDTO> GetCurrencyAsync(int id)
         {
-             var c =  await _context.Currencies.FindAsync(id);
+            var currency = await _context.Currencies
+                .Where(c => c.CurrencyId == id)
+                .Select(c => new CurrenciesForGetDTO
+                {
+                    CurrencyId = c.CurrencyId,
+                    CurrencyName = c.CurrencyName,
+                    CurrencySymbol = c.CurrencySymbol,
+                    CurrencyValue = c.CurrencyValue,
+                })
+                .FirstOrDefaultAsync();
 
-            if (c == null)
+            if (currency == null)
             {
-                throw new Exception();
+                // Puedes manejar el caso en el que la moneda no se encuentra.
+                throw new Exception($"No se encontró una moneda con id {id}");
             }
-            else
-            {
-                return (c);
-            }
-            
+
+            return currency;
         }
 
         public async Task<decimal> Exchange(CurrencyForConvesionDTO symbol1, CurrencyForConvesionDTO symbol2, int quantity)
@@ -72,10 +80,6 @@ namespace ExchangeClick.Services
 
         public async Task<bool> AddCurrencyAsync(CurrencyForCreate currencyDTO, int loggedUser)//agregar
         {
-            if (await _context.Currencies.AnyAsync(c => c.CurrencySymbol == currencyDTO.CurrencySymbol))
-            {
-                return false; // Indica conflicto, el símbolo de la moneda ya existe.
-            }
 
             var newCurrency = new Currency
             {
@@ -93,7 +97,7 @@ namespace ExchangeClick.Services
             return true; 
         }
 
-        public async Task<bool> UpdateCurrencyAsync(int id, CurrencyForEditDTO updatedCurrency, int userId)
+        public async Task<bool> UpdateCurrencyAsync(int id, CurrencyForEditDTO updatedCurrency)
         {
             var existingCurrency = await _context.Currencies
                 .SingleOrDefaultAsync(c => c.CurrencyId == id);
@@ -107,8 +111,6 @@ namespace ExchangeClick.Services
             existingCurrency.CurrencyName = updatedCurrency.CurrencyName;
             existingCurrency.CurrencySymbol = updatedCurrency.CurrencySymbol;
             existingCurrency.CurrencyValue = updatedCurrency.CurrencyValue;
-            existingCurrency.UserId = userId;
-
             try
             {
                 await _context.SaveChangesAsync();

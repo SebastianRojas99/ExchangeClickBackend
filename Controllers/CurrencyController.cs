@@ -32,14 +32,15 @@ namespace ExchangeClick.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCurrencies()
         {
-            var currencies = await _currencyService.GetCurrenciesAsync();
+            int userId = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Contains("nameidentifier"))!.Value);
+            var currencies = await _currencyService.GetCurrenciesAsync(userId);
             return Ok(currencies);
         }
 
-        [HttpGet("obtener-monedas/{id}")]
-        public async Task<IActionResult> GetCurrency(int id)
+        [HttpGet("{currencyId}")]
+        public async Task<IActionResult> GetCurrency(int currencyId)
         {
-            var currency = await _currencyService.GetCurrencyAsync(id);
+            var currency = await _currencyService.GetCurrencyAsync(currencyId);
 
             if (currency == null)
             {
@@ -94,8 +95,8 @@ namespace ExchangeClick.Controllers
         public async Task<IActionResult> UpdateCurrency(int id, [FromBody] CurrencyForEditDTO updatedCurrency)
         {
             
-            var userId = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Contains("nameidentifier"))!.Value);
-            var result = await _currencyService.UpdateCurrencyAsync(id, updatedCurrency,userId);
+            
+            var result = await _currencyService.UpdateCurrencyAsync(id, updatedCurrency);
 
             if (result)
             {
