@@ -7,9 +7,9 @@
       <File FileName="Models/DTO/UsersDTO/UserProfileDTO.cs" />
       <File FileName="Models/Enum/Role.cs" />
       <File FileName="Services/Implementations/SubscriptionServices.cs" />
-      <File FileName="Services/Implementations/CurrencyServices.cs" Line="110" Column="46" />
-      <File FileName="Controllers/CurrencyController.cs" Line="93" Column="22" />
-      <File FileName="Models/DTO/CurrenciesDTO/CurrencyForEditDTO.cs" Line="9" Column="51" />
+      <File FileName="Services/Implementations/CurrencyServices.cs" Line="96" Column="66" />
+      <File FileName="Controllers/CurrencyController.cs" Line="106" Column="1" />
+      <File FileName="Program.cs" Line="78" Column="21" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -19,7 +19,6 @@
               <Node name="Controllers" expanded="True">
                 <Node name="CurrencyController.cs" selected="True" />
               </Node>
-              <Node name="Entities" expanded="True" />
               <Node name="Models" expanded="True">
                 <Node name="DTO" expanded="True">
                   <Node name="CurrenciesDTO" expanded="True" />

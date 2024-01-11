@@ -91,12 +91,13 @@ namespace ExchangeClick.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCurrency(int id, [FromBody] CurrencyForEditDTO updatedCurrency)
+        [HttpPut]
+        
+        public async Task<IActionResult> UpdateCurrency( CurrencyForCreate updatedCurrency, int currencyId)
         {
             
             
-            var result = await _currencyService.UpdateCurrencyAsync(id, updatedCurrency);
+            var result = await _currencyService.UpdateCurrencyAsync( updatedCurrency, currencyId);
 
             if (result)
             {
@@ -106,10 +107,10 @@ namespace ExchangeClick.Controllers
             return NotFound("La moneda con el símbolo proporcionado no se encontró en la base de datos.");
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCurrency(int id)
+        [HttpDelete]
+        public async Task<IActionResult> DeleteCurrency(int currencyId)
         {
-            var result = await _currencyService.DeleteCurrencyAsync(id);
+            var result = await _currencyService.DeleteCurrencyAsync(currencyId);
 
             if (result)
             {

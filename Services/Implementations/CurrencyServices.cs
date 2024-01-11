@@ -73,11 +73,7 @@ namespace ExchangeClick.Services
             }
         }
 
-        public async Task<List<Currency>> GetAllCurrencyAsync()
-        {
-            return await _context.Currencies.ToListAsync();
-        }
-
+        
         public async Task<bool> AddCurrencyAsync(CurrencyForCreate currencyDTO, int loggedUser)//agregar
         {
 
@@ -97,10 +93,10 @@ namespace ExchangeClick.Services
             return true; 
         }
 
-        public async Task<bool> UpdateCurrencyAsync(int id, CurrencyForEditDTO updatedCurrency)
+        public async Task<bool> UpdateCurrencyAsync( CurrencyForCreate updatedCurrency, int currencyId)
         {
             var existingCurrency = await _context.Currencies
-                .SingleOrDefaultAsync(c => c.CurrencyId == id);
+                .SingleOrDefaultAsync(c => c.CurrencyId == currencyId);
 
 
             if (existingCurrency == null)
@@ -122,9 +118,9 @@ namespace ExchangeClick.Services
             }
         }
 
-        public async Task<bool> DeleteCurrencyAsync(int id)
+        public async Task<bool> DeleteCurrencyAsync(int currencyId)
         {
-            var currency = await _context.Currencies.FindAsync(id);
+            var currency = await _context.Currencies.FindAsync(currencyId);
 
             if (currency == null)
             {
