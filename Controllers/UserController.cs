@@ -88,7 +88,7 @@ namespace ExchangeClick.Controllers
         }
         [HttpPut]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> update([FromBody] string uname,UserForLoginDTO u)
+        public async Task<IActionResult> update(string uname,UserForLoginDTO u)
         {
             var user = await _service.UpdateUser(uname,u);
             return Ok(user);
