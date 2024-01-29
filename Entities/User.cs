@@ -12,19 +12,19 @@ namespace ExchangeClick.Entities
 		
         public int UserId{get;set;}
 		[Required]
-		public string Name{get;set;}
+		public string? Name{get;set;}
 		[Required]
-        public string LastName { get; set; }
+        public string? LastName { get; set; }
 		[Required]
-		public string Username { get; set; }
+		public string? Username { get; set; }
 		[Required]
-		public string Password { get; set; }
+		public string? Password { get; set; }
 		[Required]
-        public string Email { get; set; }
-        public int SubscriptionId { get; set; }
+        public string? Email { get; set; }
+        public int? SubscriptionId { get; set; }
         public Role Role { get; set; } 
         [ForeignKey("SubscriptionId")]
-        public virtual Subscription Subscription { get; set; }  // Propiedad de navegación para el usuario relacionado
+        public virtual Subscription? Subscription { get; set; }  // Propiedad de navegación para el usuario relacionado
         
 	}
 }

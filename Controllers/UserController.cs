@@ -7,13 +7,14 @@ using ExchangeClick.Services.Implementations;
 using Microsoft.AspNetCore.Mvc;
 using ExchangeClick.Models;
 using Microsoft.AspNetCore.Authorization;
-
+using ExchangeClick.Models.Enum;
+using Microsoft.EntityFrameworkCore;
+using ExchangeClick.Models.DTO.UsersDTO;
 
 namespace ExchangeClick.Controllers
 {
     [Route("api/[controller]")]
     
-
     public class UserController : Controller
     {
         private readonly ExchangeClickContext _context;
@@ -27,7 +28,7 @@ namespace ExchangeClick.Controllers
 
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        
         public async Task<IActionResult> getUsers()
         {
             var users = await _service.GetUsers();
@@ -77,6 +78,7 @@ namespace ExchangeClick.Controllers
         }
         [HttpPost("adminCreation")]
         [Authorize(Roles = "Admin")]
+        [AllowAnonymous]
         public async Task<IActionResult> adminCreation([FromBody] UserForRegister a)
         {
             var res = await _service.CreateAdmin(a);
@@ -86,18 +88,24 @@ namespace ExchangeClick.Controllers
             }
             return Conflict("admin ya creado!");
         }
-        [HttpPut]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> update(string uname,UserForLoginDTO u)
+        [HttpPut("Update")]
+        
+        public async Task<IActionResult> updateUser([FromBody]UserForUpdate updatedUser , int userId, Role newRole)
         {
-            var user = await _service.UpdateUser(uname,u);
-            return Ok(user);
-        }
+            var result = await _service.EditUserOrAdmin(updatedUser,userId,newRole);
+            if (result)
+            {
+                return NoContent();
+            }
+
+            return NotFound("El usuario con el id proporcionado no se encontró en la base de datos.");
+    }
+
         [HttpDelete]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> delete(UserForLoginDTO dto)
+        public async Task<IActionResult> delete(int userId)
         {
-            var userDelete = await _service.DeleteUser(dto);
+            var userDelete = await _service.DeleteUser(userId);
             if (!userDelete)
             {
                 return Conflict();

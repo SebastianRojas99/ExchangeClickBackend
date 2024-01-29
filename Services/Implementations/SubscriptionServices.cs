@@ -50,36 +50,30 @@ namespace ExchangeClick.Services.Implementations
             return true;
         }
 
+            
         
+
 
         private decimal GetDefaultSubPrice(string subscriptionName)
         {
-            switch (subscriptionName)
+            return subscriptionName switch
             {
-                case "Subscription Free":
-                    return 0;
-                case "Subscription Trial":
-                    return 5;
-                case "Subscription Pro":
-                    return 20;
-                default:
-                    return 0; 
-            }
+                "Subscription Free" => 0,
+                "Subscription Trial" => 5,
+                "Subscription Pro" => 20,
+                _ => (decimal)0,
+            };
         }
 
         private int GetDefaultSubCount(string subscriptionName)
         {
-            switch (subscriptionName)
+            return subscriptionName switch
             {
-                case "Subscription Free":
-                    return 10;
-                case "Subscription Trial":
-                    return 100;
-                case "Subscription Pro":
-                    return int.MaxValue;
-                default:
-                    return 0; 
-            }
+                "Subscription Free" => 10,
+                "Subscription Trial" => 100,
+                "Subscription Pro" => int.MaxValue,
+                _ => 0,
+            };
         }
 
     }

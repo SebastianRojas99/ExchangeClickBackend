@@ -23,7 +23,7 @@ namespace ExchangeClick.Services
         {
             
             var currencies = await _context.Currencies.Include(u=>u.User).ToListAsync();
-            return currencies.Where(c=>c.User.UserId==id).Select(currency => new CurrenciesForGetDTO
+            return currencies.Where(c => c.User?.UserId == id).Select(currency => new CurrenciesForGetDTO
             {
                 CurrencyId = currency.CurrencyId,
                 CurrencyName = currency.CurrencyName,
@@ -54,26 +54,36 @@ namespace ExchangeClick.Services
             return currency;
         }
 
-        public async Task<decimal> Exchange(CurrencyForConvesionDTO symbol1, CurrencyForConvesionDTO symbol2, int quantity)
+        public async Task<decimal> Exchange(CurrencyForConvesionDTO symbol1, CurrencyForConvesionDTO symbol2, int quantity, int loggedUser)
         {
-            // Busca las monedas en la base de datos
-            var c1 = await _context.Currencies.SingleOrDefaultAsync(c => c.CurrencySymbol == symbol1.CurrencySymbol);
-            var c2 = await _context.Currencies.SingleOrDefaultAsync(c => c.CurrencySymbol == symbol2.CurrencySymbol);
+            var user = await _context.Users
+                .Include(u => u.Subscription)
+                .FirstOrDefaultAsync(u => u.UserId == loggedUser);
 
-            // Si las monedas se encontraron, calcula el valor de cambio
-            if (c1 != null && c2 != null)
+            var c1 = await _context.Currencies.FirstOrDefaultAsync(c => c.CurrencySymbol == symbol1.CurrencySymbol);
+            var c2 = await _context.Currencies.FirstOrDefaultAsync(c => c.CurrencySymbol == symbol2.CurrencySymbol);
+
+            if (user != null && c1 != null && c2 != null)
             {
                 var conversionValue = c1.CurrencyValue * quantity / c2.CurrencyValue;
-                return conversionValue;
+
+                if (user.Subscription != null && user.Subscription.SubCount > 0)
+                {
+                    user.Subscription.SubCount--;
+                    await _context.SaveChangesAsync();
+                    return conversionValue;
+                }
+
+                return 0;
             }
             else
             {
-                // Si las monedas no se encontraron, lanza una excepción
-                throw new InvalidOperationException("No se encontraron las monedas especificadas.");
+                return 0;
             }
         }
 
-        
+
+
         public async Task<bool> AddCurrencyAsync(CurrencyForCreate currencyDTO, int loggedUser)//agregar
         {
 

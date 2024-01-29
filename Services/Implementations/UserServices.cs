@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ExchangeClick.Entities;
 using ExchangeClick.Models;
+using ExchangeClick.Models.DTO.CurrenciesDTO;
 using ExchangeClick.Models.DTO.UsersDTO;
 using ExchangeClick.Models.Enum;
 using ExchangeClick.Services.Interfaces;
@@ -21,51 +22,7 @@ namespace ExchangeClick.Services
             _context = context;
         }
 
-        public async Task<bool> CreateUser(UserForRegister dto)
-        {
-            if (await _context.Users.AnyAsync(u=>u.Username == dto.Username))
-            {
-                return false;
-            }            
-            var newUser = new User
-            {
-                Name = dto.Name,
-                LastName = dto.LastName,
-                Email = dto.Email,
-                Password = dto.Password,
-                Username = dto.Username,
-                SubscriptionId = dto.SubscriptionId,
-
-                Role = Role.User,
-            };
-            _context.Users.Add(newUser);
-            await _context.SaveChangesAsync();
-            return true;
-            }
-
-
-        public async Task<bool> CreateAdmin(UserForRegister dto)
-        {
-            if (await _context.Users.AnyAsync(u => u.Username == dto.Username))
-            {
-                return false;
-            }
-            var newAdmin = new User
-            {
-                Name = dto.Name,
-                LastName = dto.LastName,
-                Email = dto.Email,
-                Password = dto.Password,
-                Username = dto.Username,
-                SubscriptionId = dto.SubscriptionId,
-
-
-                Role = Role.Admin,
-            };
-            _context.Users.Add(newAdmin);
-            await _context.SaveChangesAsync();
-            return true;
-        }
+        
 
 
         public async Task<List<UserForGetDTO>> GetUsers()
@@ -82,9 +39,11 @@ namespace ExchangeClick.Services
                 LastName = u.LastName,
                 Email = u.Email,
                 Username = u.Username,
-                SubscriptionId = u.SubscriptionId,
+                Role = u.Role.ToString(),
+                SubscriptionId = u.Subscription.SubscriptionId,
                 SubscriptionName = u.Subscription?.SubscriptionName,
-                SubCount = u.Subscription.SubCount
+                SubCount = u.Subscription.SubCount,
+                
                 
             }).ToList();
             
@@ -121,52 +80,118 @@ namespace ExchangeClick.Services
         }
 
 
-
-        public async Task<bool> UpdateUser(string uname, UserForLoginDTO dto)
+        public async Task<bool> CreateUser(UserForRegister dto)
         {
+            if (await _context.Users.AnyAsync(u => u.Username == dto.Username))
+            {
+                return false;
+            }
+            if (await _context.Users.AnyAsync(u => u.Email == dto.Email))
+            {
+                return false;
+            }
+            var newUser = new User
+            {
+                Name = dto.Name,
+                LastName = dto.LastName,
+                Email = dto.Email,
+                Password = dto.Password,
+                Username = dto.Username,
+                SubscriptionId = dto.SubscriptionId,
+                Role = Role.User,
+            };
+
+            _context.Users.Add(newUser);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+
+        public async Task<bool> CreateAdmin(UserForRegister dto)
+        {
+            if (await _context.Users.AnyAsync(u => u.Username == dto.Username))
+            {
+                return false;
+            }
+            var newAdmin = new User 
+            {
+                Name = dto.Name,
+                LastName = dto.LastName,
+                Email = dto.Email,
+                Password = dto.Password,
+                Username = dto.Username,
+                SubscriptionId = dto.SubscriptionId,
+                Role = Role.Admin,
+            };
+            _context.Users.Add(newAdmin);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> EditUserOrAdmin(UserForUpdate updatedUser, int userId, Role newRole)
+        {
+            var existingUser = await _context.Users.SingleOrDefaultAsync(u => u.UserId == userId);
+
+            if (existingUser == null)
+            {
+                return false;
+            }
+
+            // Actualiza las propiedades del usuario
+            existingUser.Name = updatedUser.Name;
+            existingUser.LastName = updatedUser.LastName;
+            existingUser.Email = updatedUser.Email;
+            existingUser.Username = updatedUser.Username;
+            existingUser.SubscriptionId = updatedUser.SubscriptionId;
+            existingUser.Role = newRole;
+            // Actualiza el rol del usuario según el valor recibido desde el front
+            
+
+            // Guarda los cambios en la base de datos
             try
             {
-                var update = await _context.Users.SingleOrDefaultAsync(u => u.Username == uname);
-
-                if (update == null)
-                {
-                    return false; 
-                }
-
-                if (update.Username != dto.Username || update.Password != dto.Password)
-                {
-                    if (dto.Username != null)
-                    {
-                        update.Username = dto.Username;
-                    }
-
-                    if (dto.Password != null)
-                    {
-                        update.Password = dto.Password;
-                    }
-                }
-
                 await _context.SaveChangesAsync();
-                return true; // Update successful
+                return true;
             }
-            catch (DbUpdateException ex)
+            catch (DbUpdateConcurrencyException)
             {
-                Console.WriteLine($"Error updating user: {ex.Message}");
-                return false; 
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Unexpected error updating user: {ex.Message}");
-                return false; 
+                return false; // Indica error al actualizar la moneda.
             }
         }
-        
 
-        public async Task<bool> DeleteUser(UserForLoginDTO dto)
+        public async Task<bool> UpdateCurrencyAsync(CurrencyForCreate updatedCurrency, int currencyId)
+        {
+            var existingCurrency = await _context.Currencies
+                .SingleOrDefaultAsync(c => c.CurrencyId == currencyId);
+
+
+            if (existingCurrency == null)
+            {
+                return false; // Indica que la moneda no se encontró en la base de datos.
+            }
+
+            existingCurrency.CurrencyName = updatedCurrency.CurrencyName;
+            existingCurrency.CurrencySymbol = updatedCurrency.CurrencySymbol;
+            existingCurrency.CurrencyValue = updatedCurrency.CurrencyValue;
+            try
+            {
+                await _context.SaveChangesAsync();
+                return true; // Indica éxito en la operación
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return false; // Indica error al actualizar la moneda.
+            }
+        }
+
+
+
+        public async Task<bool> DeleteUser(int userId)
         {
             try
             {
-                var userDel = await _context.Users.SingleOrDefaultAsync(u => u.Username == dto.Username);
+                var userDel = await _context.Users.FindAsync(userId);
 
                 if (userDel != null)
                 {
@@ -183,6 +208,7 @@ namespace ExchangeClick.Services
                 return false; // Error deleting the user.
             }
         }
+        
 
         public async Task<int> getSubCountById(int UserId)
         {
@@ -191,18 +217,9 @@ namespace ExchangeClick.Services
             return s.Subscription.SubCount;
         }
 
-        public async Task<bool> ChangeSub(UserForGetDTO dto, int subNum)
-        {
-            var change = await _context.Users.SingleOrDefaultAsync(s => s.SubscriptionId == subNum);
-            if (change != null)
-            {
-                // Perform the necessary changes to the 'change' object
-                // ...
-                await _context.SaveChangesAsync();
-                return true; // Change successful
-            }
-            return false; // Subscription not found
-        }
+        //FALTA METODO DE CAMBIAR SUBSCRIPCION
+
+
 
         public User? ValidateUser(AuthenticationRequestDTO authRequestBody)
         {

@@ -69,7 +69,7 @@ builder.Services.AddScoped<SubscriptionServices>();
 builder.Services.AddScoped<UserServices>();
 #endregion
 
-
+builder.Services.AddScoped<SubscriptionServices>();
 var app = builder.Build();
 
 app.UseCors(options => options

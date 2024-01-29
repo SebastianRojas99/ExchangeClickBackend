@@ -1,4 +1,6 @@
 ﻿using System;
+using ExchangeClick.Entities;
+
 namespace ExchangeClick.Models.DTO.CurrenciesDTO
 {
 	public class CurrencyConversionRequestDTO

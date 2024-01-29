@@ -14,7 +14,7 @@ namespace ExchangeClick.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    
     public class SubscriptionController : Controller
     {
         private readonly ExchangeClickContext _context;

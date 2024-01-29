@@ -16,7 +16,7 @@ namespace ExchangeClick.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles ="User,Admin")]
+    
     
     public class CurrencyController : ControllerBase
     {
@@ -65,30 +65,17 @@ namespace ExchangeClick.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ConvertCurrency([FromBody] CurrencyConversionRequestDTO request)
+        public async Task<IActionResult> ConvertCurrency( CurrencyConversionRequestDTO request)
         {
             // Crear instancias de CurrencyForConvesionDTO con los símbolos proporcionados
+            int userId = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Contains("nameidentifier"))!.Value);
             var currency1 = new CurrencyForConvesionDTO { CurrencySymbol = request.Symbol1 };
             var currency2 = new CurrencyForConvesionDTO { CurrencySymbol = request.Symbol2 };
+            
 
-            var conversionValue = await _currencyService.Exchange(currency1, currency2, request.Quantity);
+            var conversionValue = await _currencyService.Exchange(currency1, currency2, request.Quantity,userId);
 
-            int userId = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Contains("nameidentifier"))!.Value);
-            var u = await _context.Users.Include(s => s.Subscription).SingleOrDefaultAsync(x => x.UserId == userId);
-            if (conversionValue > 0 && u.Subscription.SubCount > 0)
-            {
-                // Si la conversion fue exitosa, resta un intento de conversion de la suscripción del usuario y guarda los cambios
-                u.Subscription.SubCount--;
-                await _context.SaveChangesAsync();
-
-                // Devuelve el valor de cambio
-                return Ok(new { conversionRate = conversionValue });
-            }
-            else
-            {
-                // Si la conversion falla, devuelve un error
-                return BadRequest("No se pudo realizar la conversion de moneda.");
-            }
+                return Ok(new { conversionRate = conversionValue });            
         }
 
         [HttpPut]
