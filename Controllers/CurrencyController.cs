@@ -67,7 +67,6 @@ namespace ExchangeClick.Controllers
         [HttpPost]
         public async Task<IActionResult> ConvertCurrency( CurrencyConversionRequestDTO request)
         {
-            // Crear instancias de CurrencyForConvesionDTO con los símbolos proporcionados
             int userId = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Contains("nameidentifier"))!.Value);
             var currency1 = new CurrencyForConvesionDTO { CurrencySymbol = request.Symbol1 };
             var currency2 = new CurrencyForConvesionDTO { CurrencySymbol = request.Symbol2 };

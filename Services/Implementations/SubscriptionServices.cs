@@ -23,7 +23,6 @@ namespace ExchangeClick.Services.Implementations
             {
                 SubscriptionId = subs.SubscriptionId,
                 SubscriptionName = subs.SubscriptionName,
-                SubCount = subs.SubCount,
                 SubPrice = subs.SubPrice,
 
             }).ToList();
@@ -42,7 +41,6 @@ namespace ExchangeClick.Services.Implementations
             {
                 SubscriptionName = dto.SubscriptionName,
                 SubPrice = GetDefaultSubPrice(dto.SubscriptionName),
-                SubCount = GetDefaultSubCount(dto.SubscriptionName)
             };
 
             _context.Subscriptions.Add(newSub);
@@ -64,18 +62,6 @@ namespace ExchangeClick.Services.Implementations
                 _ => (decimal)0,
             };
         }
-
-        private int GetDefaultSubCount(string subscriptionName)
-        {
-            return subscriptionName switch
-            {
-                "Subscription Free" => 10,
-                "Subscription Trial" => 100,
-                "Subscription Pro" => int.MaxValue,
-                _ => 0,
-            };
-        }
-
     }
 }
 

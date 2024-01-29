@@ -57,7 +57,6 @@ namespace ExchangeClick.Services
         public async Task<decimal> Exchange(CurrencyForConvesionDTO symbol1, CurrencyForConvesionDTO symbol2, int quantity, int loggedUser)
         {
             var user = await _context.Users
-                .Include(u => u.Subscription)
                 .FirstOrDefaultAsync(u => u.UserId == loggedUser);
 
             var c1 = await _context.Currencies.FirstOrDefaultAsync(c => c.CurrencySymbol == symbol1.CurrencySymbol);
@@ -67,14 +66,14 @@ namespace ExchangeClick.Services
             {
                 var conversionValue = c1.CurrencyValue * quantity / c2.CurrencyValue;
 
-                if (user.Subscription != null && user.Subscription.SubCount > 0)
+                if (user.SubscriptionId != null && user.SubCount > 0)
                 {
-                    user.Subscription.SubCount--;
+                    user.SubCount--;
                     await _context.SaveChangesAsync();
-                    return conversionValue;
+                    
                 }
+                return conversionValue;
 
-                return 0;
             }
             else
             {

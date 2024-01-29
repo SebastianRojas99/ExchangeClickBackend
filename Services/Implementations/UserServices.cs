@@ -42,9 +42,10 @@ namespace ExchangeClick.Services
                 Role = u.Role.ToString(),
                 SubscriptionId = u.Subscription.SubscriptionId,
                 SubscriptionName = u.Subscription?.SubscriptionName,
-                SubCount = u.Subscription.SubCount,
-                
-                
+                SubCount = u.SubCount
+
+
+
             }).ToList();
             
         }
@@ -67,7 +68,7 @@ namespace ExchangeClick.Services
                     Email = user.Email,
                     Username = user.Username,
                     SubscriptionName = user.Subscription?.SubscriptionName,
-                    SubCount = user.Subscription.SubCount,
+                    SubCount = user.SubCount,
                 };
                 userProfile.Role = user.Role.ToString();
 
@@ -86,11 +87,11 @@ namespace ExchangeClick.Services
             {
                 return false;
             }
-            if (await _context.Users.AnyAsync(u => u.Email == dto.Email))
-            {
-                return false;
-            }
-            var newUser = new User
+
+            // Obtener el valor del SubCount de forma asincrónica
+            int subCount = await GetSubcount(dto.SubscriptionId);
+
+            var newAdmin = new User
             {
                 Name = dto.Name,
                 LastName = dto.LastName,
@@ -98,12 +99,12 @@ namespace ExchangeClick.Services
                 Password = dto.Password,
                 Username = dto.Username,
                 SubscriptionId = dto.SubscriptionId,
+                SubCount = subCount, // Asignar el valor obtenido
                 Role = Role.User,
             };
 
-            _context.Users.Add(newUser);
+            _context.Users.Add(newAdmin);
             await _context.SaveChangesAsync();
-
             return true;
         }
 
@@ -114,7 +115,11 @@ namespace ExchangeClick.Services
             {
                 return false;
             }
-            var newAdmin = new User 
+
+            // Obtener el valor del SubCount de forma asincrónica
+            int subCount = await GetSubcount(dto.SubscriptionId);
+
+            var newAdmin = new User
             {
                 Name = dto.Name,
                 LastName = dto.LastName,
@@ -122,16 +127,20 @@ namespace ExchangeClick.Services
                 Password = dto.Password,
                 Username = dto.Username,
                 SubscriptionId = dto.SubscriptionId,
+                SubCount = subCount, // Asignar el valor obtenido
                 Role = Role.Admin,
             };
+
             _context.Users.Add(newAdmin);
             await _context.SaveChangesAsync();
             return true;
         }
 
+
         public async Task<bool> EditUserOrAdmin(UserForUpdate updatedUser, int userId, Role newRole)
         {
             var existingUser = await _context.Users.SingleOrDefaultAsync(u => u.UserId == userId);
+            
 
             if (existingUser == null)
             {
@@ -153,31 +162,6 @@ namespace ExchangeClick.Services
             {
                 await _context.SaveChangesAsync();
                 return true;
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                return false; // Indica error al actualizar la moneda.
-            }
-        }
-
-        public async Task<bool> UpdateCurrencyAsync(CurrencyForCreate updatedCurrency, int currencyId)
-        {
-            var existingCurrency = await _context.Currencies
-                .SingleOrDefaultAsync(c => c.CurrencyId == currencyId);
-
-
-            if (existingCurrency == null)
-            {
-                return false; // Indica que la moneda no se encontró en la base de datos.
-            }
-
-            existingCurrency.CurrencyName = updatedCurrency.CurrencyName;
-            existingCurrency.CurrencySymbol = updatedCurrency.CurrencySymbol;
-            existingCurrency.CurrencyValue = updatedCurrency.CurrencyValue;
-            try
-            {
-                await _context.SaveChangesAsync();
-                return true; // Indica éxito en la operación
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -214,16 +198,36 @@ namespace ExchangeClick.Services
         {
             var s = await _context.Users.Include(u => u.Subscription).FirstOrDefaultAsync(x => x.UserId == UserId);
 
-            return s.Subscription.SubCount;
+            return s.SubCount;
         }
 
-        //FALTA METODO DE CAMBIAR SUBSCRIPCION
+
+        public async Task<bool> ChangeSub()
+        {
+            return true;
+        }
 
 
 
         public User? ValidateUser(AuthenticationRequestDTO authRequestBody)
         {
             return _context.Users.FirstOrDefault(p => p.Email == authRequestBody.Email && p.Password == authRequestBody.Password);
+        }
+
+        private async Task<int> GetSubcount(int id)
+        {
+            var subscriptionName = await _context.Subscriptions
+                                    .Where(s => s.SubscriptionId == id)
+                                    .Select(s => s.SubscriptionName)
+                                    .FirstOrDefaultAsync();
+
+            return subscriptionName switch
+            {
+                "Subscription Free" => 10,
+                "Subscription Trial" => 100,
+                "Subscription Pro" => 900000000,
+                _ => 0,
+            };
         }
 
     }

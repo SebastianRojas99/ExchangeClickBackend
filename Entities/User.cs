@@ -21,6 +21,7 @@ namespace ExchangeClick.Entities
 		public string? Password { get; set; }
 		[Required]
         public string? Email { get; set; }
+		public int SubCount { get; set; }
         public int? SubscriptionId { get; set; }
         public Role Role { get; set; } 
         [ForeignKey("SubscriptionId")]

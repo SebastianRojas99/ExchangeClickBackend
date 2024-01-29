@@ -14,7 +14,6 @@ namespace ExchangeClick.Entities
 		[Required]
 		public string? SubscriptionName { get; set; }
 		public decimal SubPrice { get;set;}
-		public int SubCount { get; set; }
     }
 }
 
