@@ -89,7 +89,7 @@ namespace ExchangeClick.Controllers
             return Conflict("admin ya creado!");
         }
         [HttpPut("Update")]
-        
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> updateUser([FromBody]UserForUpdate updatedUser , int userId, Role newRole)
         {
             var result = await _service.EditUserOrAdmin(updatedUser,userId,newRole);
@@ -100,6 +100,19 @@ namespace ExchangeClick.Controllers
 
             return NotFound("El usuario con el id proporcionado no se encontró en la base de datos.");
     }
+        [HttpPut("Update-Sub")]
+        [Authorize(Roles = ("User,Admin"))]
+        public async Task<IActionResult> UpdateSub([FromBody] int subscriptionId)
+        {
+            int userid = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Contains("nameidentifier"))!.Value);
+            var result = await _service.EditSub(subscriptionId, userid);
+            if (result)
+            {
+                return NoContent();
+            }
+
+            return NotFound("No se pudo actualizar tu suscripcion");
+        }
 
         [HttpDelete]
         [Authorize(Roles = "Admin")]

@@ -202,12 +202,28 @@ namespace ExchangeClick.Services
         }
 
 
-        public async Task<bool> ChangeSub()
+        public async Task<bool> EditSub(int subscriptionId, int userId)
         {
-            return true;
+            var existingUser = await _context.Users.SingleOrDefaultAsync(u => u.UserId == userId);
+            int subCount = await GetSubcount(subscriptionId);
+
+            if (existingUser == null)
+            {
+                return false;
+            }
+            existingUser.SubscriptionId = subscriptionId;
+            existingUser.SubCount = subCount;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return false; // Indica error al actualizar la moneda.
+            }
         }
-
-
 
         public User? ValidateUser(AuthenticationRequestDTO authRequestBody)
         {
