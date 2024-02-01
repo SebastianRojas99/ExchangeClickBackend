@@ -28,20 +28,43 @@ namespace ExchangeClick.Controllers
 
 
         [HttpGet]
-        
         public async Task<IActionResult> getUsers()
         {
             var users = await _service.GetUsers();
             return Ok(users);
         }
+
         [HttpGet("Profile/{userId}")]
         [Authorize(Roles = "User,Admin")]
-        public async Task<IActionResult> getUserById()
+        public async Task<IActionResult> GetUserById()
         {
             int userId = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Contains("nameidentifier"))!.Value);
             var user = await _service.Profile(userId);
             return Ok(user);
         }
+
+        [HttpGet("isAdmin/{userId}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> IsAdmin()
+        {
+            try
+            {
+                var userId = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Contains("nameidentifier"))!.Value);
+                var user = await _service.IsAdmin(userId);
+                if (user)
+                {
+                    return Ok();
+                }
+                return BadRequest("es usuario no administrador");
+                
+            }
+            catch(Exception ex)
+            {
+                return BadRequest("error en admin");
+            }
+            
+        }
+
         [HttpGet("{id}")]
         [Authorize(Roles = "User,Admin")]
         public async Task<IActionResult> GetSubCountById()

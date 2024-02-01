@@ -230,6 +230,19 @@ namespace ExchangeClick.Services
             return _context.Users.FirstOrDefault(p => p.Email == authRequestBody.Email && p.Password == authRequestBody.Password);
         }
 
+
+        public async Task<bool> IsAdmin(int userId)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
+
+            if (user != null && user.Role == Role.Admin)
+            {
+                return true;
+            }
+            return false;
+        }
+
+
         private async Task<int> GetSubcount(int id)
         {
             var subscriptionName = await _context.Subscriptions
