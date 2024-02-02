@@ -38,7 +38,7 @@ namespace ExchangeClick.Controllers
         }
 
         [HttpGet("{currencyId}")]
-        public async Task<IActionResult> GetCurrency(int currencyId)
+        public async Task<IActionResult> GetCurrencyById(int currencyId)
         {
             var currency = await _currencyService.GetCurrencyAsync(currencyId);
 

@@ -10,17 +10,18 @@ using Microsoft.AspNetCore.Authorization;
 using ExchangeClick.Models.Enum;
 using Microsoft.EntityFrameworkCore;
 using ExchangeClick.Models.DTO.UsersDTO;
+using ExchangeClick.Entities;
 
 namespace ExchangeClick.Controllers
 {
     [Route("api/[controller]")]
-    
+
     public class UserController : Controller
     {
         private readonly ExchangeClickContext _context;
         private readonly UserServices _service;
 
-        public UserController( ExchangeClickContext context, UserServices service)
+        public UserController(ExchangeClickContext context, UserServices service)
         {
             _context = context;
             _service = service;
@@ -36,10 +37,23 @@ namespace ExchangeClick.Controllers
 
         [HttpGet("Profile/{userId}")]
         [Authorize(Roles = "User,Admin")]
-        public async Task<IActionResult> GetUserById()
+        public async Task<IActionResult> GetProfile()
         {
             int userId = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Contains("nameidentifier"))!.Value);
             var user = await _service.Profile(userId);
+            return Ok(user);
+        }
+
+        [HttpGet("GetUserById/{userId}")]
+        public async Task<IActionResult> GetById(int userId)
+        {
+            var user = await _service.GetUserById(userId);
+
+            if (user == null)
+            {
+                return BadRequest();
+            }
+
             return Ok(user);
         }
 
@@ -113,7 +127,7 @@ namespace ExchangeClick.Controllers
         }
         [HttpPut("Update")]
         [Authorize(Roles ="Admin")]
-        public async Task<IActionResult> updateUser([FromBody]UserForUpdate updatedUser , int userId, Role newRole)
+        public async Task<IActionResult> updateUser(UserForUpdate updatedUser , int userId, Role newRole)
         {
             var result = await _service.EditUserOrAdmin(updatedUser,userId,newRole);
             if (result)
@@ -142,11 +156,11 @@ namespace ExchangeClick.Controllers
         public async Task<IActionResult> delete(int userId)
         {
             var userDelete = await _service.DeleteUser(userId);
-            if (!userDelete)
+            if (userDelete)
             {
-                return Conflict();
+                return NoContent();
             }
-            return Ok(userDelete);
+            return NotFound();
         }
     }
 }
