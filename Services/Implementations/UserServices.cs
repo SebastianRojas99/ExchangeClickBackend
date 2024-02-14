@@ -167,7 +167,7 @@ namespace ExchangeClick.Services
         }
 
 
-        public async Task<bool> EditUserOrAdmin(UserForUpdate updatedUser, int userId, Role newRole)
+        public async Task<bool> EditUserOrAdmin(UserForUpdate updatedUser, int userId)
         {
             var existingUser = await _context.Users.SingleOrDefaultAsync(u => u.UserId == userId);
             int subCount = await GetSubcount(updatedUser.SubscriptionId);
@@ -182,13 +182,11 @@ namespace ExchangeClick.Services
             existingUser.LastName = updatedUser.LastName;
             existingUser.Email = updatedUser.Email;
             existingUser.Username = updatedUser.Username;
+            existingUser.Password = updatedUser.Password;
             existingUser.SubscriptionId = updatedUser.SubscriptionId;
             existingUser.SubCount = subCount;
-            existingUser.Role = newRole;
-            // Actualiza el rol del usuario según el valor recibido desde el front
+            existingUser.Role = updatedUser.Role;
             
-
-            // Guarda los cambios en la base de datos
             try
             {
                 await _context.SaveChangesAsync();
@@ -196,7 +194,7 @@ namespace ExchangeClick.Services
             }
             catch (DbUpdateConcurrencyException)
             {
-                return false; // Indica error al actualizar la moneda.
+                return false; 
             }
         }
 

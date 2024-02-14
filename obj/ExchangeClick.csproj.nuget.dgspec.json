@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/seba/Desktop/ExchageClick/ExchangeClickBackend/ExchangeClick/ExchangeClick.csproj": {}
+    "/Users/seba/Desktop/ExchageClick/ExchangeClickBackend/ExchangeClickBackend/ExchangeClick.csproj": {}
   },
   "projects": {
-    "/Users/seba/Desktop/ExchageClick/ExchangeClickBackend/ExchangeClick/ExchangeClick.csproj": {
+    "/Users/seba/Desktop/ExchageClick/ExchangeClickBackend/ExchangeClickBackend/ExchangeClick.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/seba/Desktop/ExchageClick/ExchangeClickBackend/ExchangeClick/ExchangeClick.csproj",
+        "projectUniqueName": "/Users/seba/Desktop/ExchageClick/ExchangeClickBackend/ExchangeClickBackend/ExchangeClick.csproj",
         "projectName": "ExchangeClick",
-        "projectPath": "/Users/seba/Desktop/ExchageClick/ExchangeClickBackend/ExchangeClick/ExchangeClick.csproj",
+        "projectPath": "/Users/seba/Desktop/ExchageClick/ExchangeClickBackend/ExchangeClickBackend/ExchangeClick.csproj",
         "packagesPath": "/Users/seba/.nuget/packages/",
-        "outputPath": "/Users/seba/Desktop/ExchageClick/ExchangeClickBackend/ExchangeClick/obj/",
+        "outputPath": "/Users/seba/Desktop/ExchageClick/ExchangeClickBackend/ExchangeClickBackend/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/seba/.nuget/NuGet/NuGet.Config"
@@ -20,6 +20,7 @@
           "net7.0"
         ],
         "sources": {
+          "/usr/local/share/dotnet/sdk/7.0.312/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -94,7 +95,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.100/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.312/RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -1,27 +1,27 @@
 ﻿<Properties StartupConfiguration="{268DC2C8-B04F-4561-A9C5-3C77B347381F}|Default">
-  <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.ItemProperties.ExchangeClick PreferredExecutionTarget="/Applications/Google Chrome 2.app" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/CurrencyController.cs">
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/UserController.cs">
     <Files>
-      <File FileName="Program.cs" Line="1" Column="1" />
-      <File FileName="Entities/Subscription.cs" Line="1" Column="1" />
+      <File FileName="Program.cs" />
+      <File FileName="Entities/Subscription.cs" />
       <File FileName="Services/Implementations/SubscriptionServices.cs" Line="1" Column="1" />
-      <File FileName="Services/Implementations/UserServices.cs" Line="221" Column="1" />
-      <File FileName="Services/Implementations/CurrencyServices.cs" Line="29" Column="54" />
-      <File FileName="Controllers/CurrencyController.cs" Line="85" Column="13" />
+      <File FileName="Controllers/UserController.cs" Line="128" Column="9" />
+      <File FileName="Services/Implementations/UserServices.cs" Line="192" Column="51" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="ExchangeClick">
             <Node name="ExchangeClick">
-              <Node name="Controllers" expanded="True">
-                <Node name="CurrencyController.cs" selected="True" />
-              </Node>
+              <Node name="Controllers" expanded="True" />
               <Node name="Entities" expanded="True" />
               <Node name="Models" expanded="True">
                 <Node name="DTO" expanded="True">
                   <Node name="CurrenciesDTO" expanded="True" />
+                  <Node name="UsersDTO" expanded="True" />
                 </Node>
               </Node>
               <Node name="Services" expanded="True">
@@ -36,6 +36,4 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
