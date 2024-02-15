@@ -127,7 +127,7 @@ namespace ExchangeClick.Controllers
         }
         [HttpPut]
         [Authorize(Roles ="Admin")]
-        public async Task<IActionResult> updateUser(UserForUpdate updatedUser , int userId)
+        public async Task<IActionResult> updateUser([FromBody]UserForUpdate updatedUser ,int userId)
         {
             var result = await _service.EditUserOrAdmin(updatedUser,userId);
             if (result)
