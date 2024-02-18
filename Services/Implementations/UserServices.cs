@@ -265,16 +265,27 @@ namespace ExchangeClick.Services
             return s.SubCount;
         }
 
-        public async Task<bool> EditSub(int subscriptionId, int userId)
+        public async Task<bool> EditSub(string subscriptionName, int userId)
         {
             var existingUser = await _context.Users.SingleOrDefaultAsync(u => u.UserId == userId);
-            int subCount = await GetSubcount(subscriptionId);
 
             if (existingUser == null)
             {
                 return false;
             }
-            existingUser.SubscriptionId = subscriptionId;
+
+            // Obtener la suscripción por su nombre
+            var subscription = await _context.Subscriptions.SingleOrDefaultAsync(s => s.SubscriptionName == subscriptionName);
+
+            if (subscription == null)
+            {
+                return false; // Si no se encuentra la suscripción, retornar false
+            }
+
+            int subCount = await GetSubcount(subscription.SubscriptionId);
+
+            existingUser.SubscriptionId = subscription.SubscriptionId;
+            existingUser.Subscription = subscription;
             existingUser.SubCount = subCount;
 
             try
@@ -284,9 +295,11 @@ namespace ExchangeClick.Services
             }
             catch (DbUpdateConcurrencyException)
             {
-                return false; // Indica error al actualizar la moneda.
+                return false; // Indica error al actualizar la suscripción
             }
         }
+
+
 
     }
 }

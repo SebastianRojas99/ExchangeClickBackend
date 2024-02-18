@@ -37,6 +37,14 @@ namespace ExchangeClick.Controllers
             return Ok(currencies);
         }
 
+        [HttpGet("get-symbols")]
+        public async Task<IActionResult> GetSymbols()
+        {
+            int userId = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Contains("nameidentifier"))!.Value);
+            var symbols = await _currencyService.GetSymbols(userId);
+            return Ok(symbols);
+        }
+
         [HttpGet("{currencyId}")]
         public async Task<IActionResult> GetCurrencyById(int currencyId)
         {

@@ -140,10 +140,10 @@ namespace ExchangeClick.Controllers
 
         [HttpPut("Update-Sub")]
         [Authorize(Roles = ("User,Admin"))]
-        public async Task<IActionResult> UpdateSub([FromBody] int subscriptionId)
+        public async Task<IActionResult> UpdateSub([FromBody] string subscriptionName)
         {
             int userid = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Contains("nameidentifier"))!.Value);
-            var result = await _service.EditSub(subscriptionId, userid);
+            var result = await _service.EditSub(subscriptionName, userid);
             if (result)
             {
                 return NoContent();

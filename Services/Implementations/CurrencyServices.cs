@@ -54,6 +54,15 @@ namespace ExchangeClick.Services
             return currency;
         }
 
+        public async Task<List<CurrencyForConvesionDTO>> GetSymbols(int id)
+        {
+            var currencies = await _context.Currencies.Include(u => u.User).ToListAsync();
+            return currencies.Where(c => c.User?.UserId == id).Select(currency => new CurrencyForConvesionDTO
+            {
+                CurrencySymbol = currency.CurrencySymbol,
+            }).ToList();
+        }
+
         public async Task<decimal> Exchange(CurrencyForConvesionDTO symbol1, CurrencyForConvesionDTO symbol2, int quantity, int loggedUser)
         {
             var user = await _context.Users
