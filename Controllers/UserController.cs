@@ -138,12 +138,12 @@ namespace ExchangeClick.Controllers
             return NotFound("El usuario con el id proporcionado no se encontró en la base de datos.");
     }
 
-        [HttpPut("Update-Sub")]
+        [HttpPut("UpdateSubscription")]
         [Authorize(Roles = ("User,Admin"))]
-        public async Task<IActionResult> UpdateSub([FromBody] string subscriptionName)
+        public async Task<IActionResult> UpdateSub([FromBody]string subscriptionName)
         {
-            int userid = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Contains("nameidentifier"))!.Value);
-            var result = await _service.EditSub(subscriptionName, userid);
+            int userId = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Contains("nameidentifier"))!.Value);
+            var result = await _service.EditSub(subscriptionName, userId);
             if (result)
             {
                 return NoContent();

@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Controllers"
   ],
-  "SelectedNode": "\\ExchangeClick.sln",
+  "SelectedNode": "\\Controllers\\CurrencyController.cs",
   "PreviewInSolutionExplorer": false
 }
