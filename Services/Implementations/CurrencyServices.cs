@@ -79,9 +79,13 @@ namespace ExchangeClick.Services
                 {
                     user.SubCount--;
                     await _context.SaveChangesAsync();
-                    
+                    return conversionValue;
                 }
-                return conversionValue;
+                else
+                {
+                    return 0;
+                }
+                
 
             }
             else

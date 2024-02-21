@@ -82,6 +82,10 @@ namespace ExchangeClick.Controllers
 
             var conversionValue = await _currencyService.Exchange(currency1, currency2, request.Quantity,userId);
 
+                if (conversionValue == 0)
+                {
+                    return BadRequest("Error en conversion");
+                }
                 return Ok(new { conversionRate = conversionValue });            
         }
 
