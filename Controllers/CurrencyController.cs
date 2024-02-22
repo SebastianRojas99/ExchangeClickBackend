@@ -30,6 +30,7 @@ namespace ExchangeClick.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "User,Admin")]
         public async Task<IActionResult> GetCurrencies()
         {
             int userId = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Contains("nameidentifier"))!.Value);
@@ -38,6 +39,7 @@ namespace ExchangeClick.Controllers
         }
 
         [HttpGet("get-symbols")]
+        [Authorize(Roles = "User,Admin")]
         public async Task<IActionResult> GetSymbols()
         {
             int userId = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Contains("nameidentifier"))!.Value);
@@ -46,6 +48,7 @@ namespace ExchangeClick.Controllers
         }
 
         [HttpGet("{currencyId}")]
+        [Authorize(Roles = "User,Admin")]
         public async Task<IActionResult> GetCurrencyById(int currencyId)
         {
             var currency = await _currencyService.GetCurrencyAsync(currencyId);
@@ -59,6 +62,7 @@ namespace ExchangeClick.Controllers
         }
 
         [HttpPost("crear-nueva-moneda")]
+        [Authorize(Roles = "User,Admin")]
         public async Task<IActionResult> AddCurrency( CurrencyForCreate currencyDTO)
         {
             int userId = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Contains("nameidentifier"))!.Value);
@@ -73,6 +77,7 @@ namespace ExchangeClick.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "User,Admin")]
         public async Task<IActionResult> ConvertCurrency( CurrencyConversionRequestDTO request)
         {
             int userId = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Contains("nameidentifier"))!.Value);
@@ -90,7 +95,7 @@ namespace ExchangeClick.Controllers
         }
 
         [HttpPut]
-        
+        [Authorize(Roles = "User,Admin")]
         public async Task<IActionResult> UpdateCurrency( CurrencyForCreate updatedCurrency, int currencyId)
         {
             
@@ -106,6 +111,7 @@ namespace ExchangeClick.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "User,Admin")]
         public async Task<IActionResult> DeleteCurrency(int currencyId)
         {
             var result = await _currencyService.DeleteCurrencyAsync(currencyId);

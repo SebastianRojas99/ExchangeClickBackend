@@ -29,6 +29,7 @@ namespace ExchangeClick.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> getUsers()
         {
             var users = await _service.GetUsers();
