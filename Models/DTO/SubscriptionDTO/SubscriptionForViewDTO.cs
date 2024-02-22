@@ -6,7 +6,6 @@ namespace ExchangeClick.Models.DTO.SubscriptionDTO
         public int SubscriptionId { get; set; }
         public string? SubscriptionName { get; set; }
         public decimal SubPrice { get; set; }
-        public int SubCount { get; set; }
     }
 }
 

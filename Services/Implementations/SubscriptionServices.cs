@@ -50,8 +50,6 @@ namespace ExchangeClick.Services.Implementations
 
             
         
-
-
         private decimal GetDefaultSubPrice(string subscriptionName)
         {
             return subscriptionName switch
@@ -59,7 +57,8 @@ namespace ExchangeClick.Services.Implementations
                 "Subscription Free" => 0,
                 "Subscription Trial" => 5,
                 "Subscription Pro" => 20,
-                _ => (decimal)0,
+                "Sin Subscripcion" => 0,
+                _ => throw new NotImplementedException(),
             };
         }
     }

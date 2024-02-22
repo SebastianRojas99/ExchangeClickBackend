@@ -76,8 +76,8 @@ namespace ExchangeClick.Controllers
         public async Task<IActionResult> ConvertCurrency( CurrencyConversionRequestDTO request)
         {
             int userId = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Contains("nameidentifier"))!.Value);
-            var currency1 = new CurrencyForConvesionDTO { CurrencySymbol = request.Symbol1 };
-            var currency2 = new CurrencyForConvesionDTO { CurrencySymbol = request.Symbol2 };
+            var currency1 = new CurrencyForConversionDTO { CurrencySymbol = request.Symbol1 };
+            var currency2 = new CurrencyForConversionDTO { CurrencySymbol = request.Symbol2 };
             
 
             var conversionValue = await _currencyService.Exchange(currency1, currency2, request.Quantity,userId);

@@ -9,6 +9,7 @@ using ExchangeClick.Models.DTO.CurrenciesDTO;
 using ExchangeClick.Models.DTO.UsersDTO;
 using ExchangeClick.Models.Enum;
 using ExchangeClick.Services.Interfaces;
+using Microsoft.AspNetCore.Server.IIS.Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace ExchangeClick.Services
@@ -80,7 +81,7 @@ namespace ExchangeClick.Services
 
 
 
-        public async Task<UserProfileDTO> Profile(int id)
+        public async Task<UserProfileDTO?> Profile(int id)
         {
             var user = await _context.Users
                 .Where(c => c.UserId == id)
@@ -105,7 +106,7 @@ namespace ExchangeClick.Services
             }
             else
             {
-                return null; // O lanzar una excepción si se prefiere
+                return null;
             }
         }
 
@@ -117,9 +118,8 @@ namespace ExchangeClick.Services
                 return false;
             }
 
-            // Obtener el valor del SubCount de forma asincrónica
-
-            int subCount = await GetSubcount(dto.SubscriptionId = 1);
+           
+            int subCount = await GetSubcount(dto.SubscriptionId = 4);
             var newAdmin = new User
             {
                 Name = dto.Name,
@@ -127,7 +127,7 @@ namespace ExchangeClick.Services
                 Email = dto.Email,
                 Password = dto.Password,
                 Username = dto.Username,
-                SubscriptionId = 1,
+                SubscriptionId = 4,
                 SubCount = subCount, // Asignar el valor obtenido
                 Role = Role.User,
             };
@@ -146,7 +146,7 @@ namespace ExchangeClick.Services
                 return false;
             }
 
-            // Obtener el valor del SubCount de forma asincrónica
+            // Obtener el valor del SubCount
             int subCount = await GetSubcount(dto.SubscriptionId = 1);
 
             var newAdmin = new User
@@ -177,7 +177,6 @@ namespace ExchangeClick.Services
                 return false;
             }
 
-            // Actualiza las propiedades del usuario
             existingUser.Name = updatedUser.Name;
             existingUser.LastName = updatedUser.LastName;
             existingUser.Email = updatedUser.Email;
@@ -208,20 +207,20 @@ namespace ExchangeClick.Services
                 {
                     _context.Users.Remove(userDel);
                     await _context.SaveChangesAsync();
-                    return true; // Deletion successful
+                    return true; 
                 }
 
-                return false; // User not found for deletion
+                return false; 
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error deleting user: {ex.Message}");
-                return false; // Error deleting the user.
+                return false; 
             }
         }
         
 
-        //SUBSCRIPTION CHANGES AND VALIDATIONS
+        //CAMBIOS Y VALIDACIONES
 
         public User? ValidateUser(AuthenticationRequestDTO authRequestBody)
         {
@@ -254,7 +253,8 @@ namespace ExchangeClick.Services
                 "Subscription Free" => 10,
                 "Subscription Trial" => 100,
                 "Subscription Pro" => 900000000,
-                _ => 0,
+                "Sin Subscripcion" => 0,
+                _ => throw new NotImplementedException(),
             };
         }
 
@@ -274,12 +274,12 @@ namespace ExchangeClick.Services
                 return false;
             }
 
-            // Obtener la suscripción por su nombre
+           
             var subscription = await _context.Subscriptions.SingleOrDefaultAsync(s => s.SubscriptionName == subscriptionName);
 
             if (subscription == null)
             {
-                return false; // Si no se encuentra la suscripción, retornar false
+                return false; 
             }
 
             int subCount = await GetSubcount(subscription.SubscriptionId);
@@ -295,7 +295,7 @@ namespace ExchangeClick.Services
             }
             catch (DbUpdateConcurrencyException)
             {
-                return false; // Indica error al actualizar la suscripción
+                return false; 
             }
         }
 

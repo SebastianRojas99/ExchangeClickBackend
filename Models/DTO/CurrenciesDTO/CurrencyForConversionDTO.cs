@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ExchangeClick.Models.DTO.CurrenciesDTO
 {
-	public class CurrencyForConvesionDTO
+	public class CurrencyForConversionDTO
 	{
 		 
 		public string? CurrencySymbol { get; set; }
