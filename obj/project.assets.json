@@ -2273,31 +2273,25 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Sebastian Rojas\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "/Users/seba/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Sebastian Rojas\\Desktop\\Facultad\\Backend\\ExchangeClickBackend\\ExchangeClick.csproj",
+      "projectUniqueName": "/Users/seba/Desktop/ExchageClick/ExchangeClickBackend/ExchangeClickBackend/ExchangeClick.csproj",
       "projectName": "ExchangeClick",
-      "projectPath": "C:\\Users\\Sebastian Rojas\\Desktop\\Facultad\\Backend\\ExchangeClickBackend\\ExchangeClick.csproj",
-      "packagesPath": "C:\\Users\\Sebastian Rojas\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Sebastian Rojas\\Desktop\\Facultad\\Backend\\ExchangeClickBackend\\obj\\",
+      "projectPath": "/Users/seba/Desktop/ExchageClick/ExchangeClickBackend/ExchangeClickBackend/ExchangeClick.csproj",
+      "packagesPath": "/Users/seba/.nuget/packages/",
+      "outputPath": "/Users/seba/Desktop/ExchageClick/ExchangeClickBackend/ExchangeClickBackend/obj/",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Sebastian Rojas\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/seba/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "/usr/local/share/dotnet/sdk/7.0.312/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -2372,7 +2366,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.406\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.312/RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -25,12 +25,14 @@ namespace ExchangeClick.Controllers
             _service = service;
         }
         [HttpGet("show-subs")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> getSubs()
         {
             var subs = await _service.GetSubscriptionsAvaible();
             return Ok(subs);
         }
         [HttpPost("crear-sub")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddSub([FromBody] SubscriptionForSelectDTO dto)
         {
             var res = await _service.AddSubs(dto);
@@ -40,7 +42,8 @@ namespace ExchangeClick.Controllers
             }
              return Conflict("no se pudo crear");
         }
-        
+
+     
     }
 }
 

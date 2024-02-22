@@ -46,9 +46,7 @@ namespace ExchangeClick.Services.Implementations
             _context.Subscriptions.Add(newSub);
             await _context.SaveChangesAsync();
             return true;
-        }
-
-            
+        }            
         
         private decimal GetDefaultSubPrice(string subscriptionName)
         {

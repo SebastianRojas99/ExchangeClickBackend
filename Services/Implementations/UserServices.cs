@@ -253,7 +253,7 @@ namespace ExchangeClick.Services
                 "Subscription Free" => 10,
                 "Subscription Trial" => 100,
                 "Subscription Pro" => 900000000,
-                "Sin Subscripcion" => 0,
+                "Sin Suscripcion" => 0,
                 _ => throw new NotImplementedException(),
             };
         }
